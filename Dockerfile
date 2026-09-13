@@ -35,9 +35,9 @@ RUN mkdir -p /var/svn && \
 # "/var/log/svn" mounted to store logs
 VOLUME ["/var/svn", "/etc/svn", "/var/log/svn"]
 
-# Let's use 9090 instead of 443, as 443 is already occupied by the host's Apache server
+# We won't expose HTTP and HTTPS here, as the ports 
+# usually depend on the deployment.
 # EXPOSE 80 443
-EXPOSE 9090
 
 # Set working directory
 WORKDIR /usr/local/apache2
