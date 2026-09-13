@@ -17,6 +17,56 @@ We need the following files:
 
 ## Example configurations
 
+### my-server-details.conf
+
+This file is optional and holds the server details like the server name and the server administrators e-mail.
+
+```
+ServerAdmin name@domain.com
+ServerName domain.com
+```
+
+### my-listen.conf
+
+This file is mandatory and holds the ip address and port, which apache will listen on.
+
+```
+Listen 12.34.56.78:80
+```
+
+Instead of the port, we can also provide the port only.
+```
+Listen 80
+```
+
+### my-svn-repositories.conf
+
+This configuration file is optional and holds all the configurations for one (or multiple repositories).
+
+```
+<Location /svn/personal>
+   DAV svn
+   SVNParentPath /var/svn/personal
+   SVNListParentPath On
+   AuthType Basic
+   AuthName "Subversion Repositories - Personal"
+   AuthUserFile /etc/svn/dav_svn_personal.passwd
+   Require valid-user
+</Location>
+
+<Location /svn/business>
+   DAV svn
+   SVNParentPath /var/svn/business
+   SVNListParentPath On
+   AuthType Basic
+   AuthName "Subversion Repositories - Business"
+   AuthUserFile /etc/svn/dav_svn_business.passwd
+   Require valid-user
+</Location>
+
+```
+These configuration also allows for multiple repositories underneath the location specified above. Under /var/svn/personal, we can have multiple different repositories like finance, documents, contracts etc.
+
 ### my-httpd-ssl.conf
 
 This file holds the configuration which enables secure communication (ssl). The server key and server certificates are located in this directory. 
@@ -24,7 +74,7 @@ This file holds the configuration which enables secure communication (ssl). The 
 ```
 <VirtualHost _default_:9090>
     DocumentRoot "/usr/local/apache2/htdocs"
-    ServerName youd.domain.name:port
+    ServerName your.domain.name:port
 
     SSLEngine on
     SSLCertificateFile "/etc/svn/server.crt"
