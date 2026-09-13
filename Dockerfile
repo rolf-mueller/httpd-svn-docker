@@ -5,7 +5,7 @@ FROM httpd:2.4
 LABEL name="httpd-svn" \
       description="Apache httpd with Subversion with https enabled" \
       maintainer="rolf.mueller.au@gmail.com" \
-      version="1.6"
+      version="1.0"
 
 # Install Subversion and mod_dav_svn
 RUN apt-get update && \
