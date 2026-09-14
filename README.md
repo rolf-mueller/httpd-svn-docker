@@ -5,6 +5,20 @@ A simple docker project, which allows for hosting subversion repositories
 The aim of this project is to provide a docker image which uses optional httpd.conf includes to allow for hosting subversion repositories in a flexible way.
 This docker image does not create the configuration files. One must create them first and copy them into the mounted configuration folder.
 
+## Building the image
+
+The image stamps the Apache httpd version and build timestamp into `index.html` so the running server's vulnerability status can be tracked at a glance. Pass the build date explicitly so it reflects the actual build time (otherwise Docker layer caching may reuse a stale value):
+
+```
+docker build --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") -t httpd-svn .
+```
+
+On Windows PowerShell:
+
+```
+docker build --build-arg BUILD_DATE=$(Get-Date -AsUTC -Format "yyyy-MM-ddTHH:mm:ssZ") -t httpd-svn .
+```
+
 ## Configuration
 
 The configuration is being stored in the mounted volume /etc/svn.
