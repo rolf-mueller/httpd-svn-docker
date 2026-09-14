@@ -24,10 +24,13 @@ docker build --build-arg BUILD_DATE=$(Get-Date -AsUTC -Format "yyyy-MM-ddTHH:mm:
 The configuration is being stored in the mounted volume /etc/svn.
 
 We need the following files:
-- *my-listen.conf* this file is required and must have the listen port included
-- *my-server-details.conf* this file is optional and hols the server-name and server admin's e-mail
-- *my-svn-repositories.conf* this file is optional and holds the configuration for all subversion repositories
-- *my-httpd-ssl.conf* this file is optional and holds the ssl related information such as the domain name and the location of the certificates and keys
+
+| Filename | Requirement | Description |
+| ----------- | ----------- | ----------- | 
+| *my-listen.conf* | required | specifies the listen port |
+| *my-server-details.conf* | optional | specifies the server-name and server admin's e-mail |
+| *my-svn-repositories.conf* | optional | specifies the subversion repositories |
+| *my-httpd-ssl.conf* | optional | specifies configuration relating to secure communication |
 
 ## Example configurations
 
@@ -104,3 +107,9 @@ This file holds the configuration which enables secure communication (ssl). The 
     TransferLog "/var/log/svn/access_log.log"
 </VirtualHost>
 ```
+## Publishing
+
+This repository is being published on docker hub:
+https://hub.docker.com/repository/docker/rolfmuellerau/httpd-svn-server/general
+
+
