@@ -1,6 +1,8 @@
 # Use official Apache HTTP Server image
 FROM httpd:2.4
 
+# Image version and build date arguments
+ARG IMAGE_VERSION="1.2"
 # Pass --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") at build time to record it accurately
 ARG BUILD_DATE
 
@@ -8,7 +10,7 @@ ARG BUILD_DATE
 LABEL name="httpd-svn" \
       description="Apache httpd with Subversion with https enabled" \
       maintainer="rolf.mueller.au@gmail.com" \
-      version="1.1" \
+      version="${IMAGE_VERSION}" \
       build_date="${BUILD_DATE}"
 
 # Install Subversion and mod_dav_svn
@@ -20,10 +22,10 @@ RUN apt-get update && \
 # Copy your custom HTML file into the web root
 COPY index.html /usr/local/apache2/htdocs/index.html
 
-# Stamp the httpd version and build date into index.html so vulnerability status can be tracked
+# Stamp the image version, httpd version and build date into index.html so deployed version and vulnerability status can be tracked
 RUN HTTPD_VERSION=$(httpd -v | sed -n 's#.*Apache/\([0-9.]*\).*#\1#p') && \
     BUILD_DATE_VALUE="${BUILD_DATE:-$(date -u +"%Y-%m-%dT%H:%M:%SZ")}" && \
-    sed -i "s/{{HTTPD_VERSION}}/${HTTPD_VERSION}/; s/{{BUILD_DATE}}/${BUILD_DATE_VALUE}/" /usr/local/apache2/htdocs/index.html
+    sed -i "s/{{IMAGE_VERSION}}/${IMAGE_VERSION}/; s/{{HTTPD_VERSION}}/${HTTPD_VERSION}/; s/{{BUILD_DATE}}/${BUILD_DATE_VALUE}/" /usr/local/apache2/htdocs/index.html
 
 # Let's use our custom Apache configuration,
 # which includes optional inclusion of

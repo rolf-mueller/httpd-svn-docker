@@ -7,7 +7,7 @@ This docker image does not create the configuration files. One must create them 
 
 ## Building the image
 
-The image stamps the Apache httpd version and build timestamp into `index.html` so the running server's vulnerability status can be tracked at a glance. Pass the build date explicitly so it reflects the actual build time (otherwise Docker layer caching may reuse a stale value):
+The image stamps the image version, Apache httpd version, and build timestamp into `index.html` so the running server's deployed version and vulnerability status can be tracked at a glance. Pass the build date explicitly so it reflects the actual build time (otherwise Docker layer caching may reuse a stale value):
 
 ```
 docker build --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") -t httpd-svn .
@@ -17,6 +17,12 @@ On Windows PowerShell:
 
 ```
 docker build --build-arg BUILD_DATE=$(Get-Date -AsUTC -Format "yyyy-MM-ddTHH:mm:ssZ") -t httpd-svn .
+```
+
+You can also override the image version if needed:
+
+```
+docker build --build-arg IMAGE_VERSION=1.3 --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") -t httpd-svn .
 ```
 
 ## Configuration
